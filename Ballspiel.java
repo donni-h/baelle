@@ -10,7 +10,7 @@ import java.util.Random;
  *
  */
 public class Ballspiel {
-	private BallFrame f;
+	private BallFrame ballFrame;
 	private List<Ball> ballList = new LinkedList<>();
 	private ThreadGroup ballThreadGroup = new ThreadGroup("Ballthreads");
 	/**
@@ -19,7 +19,7 @@ public class Ballspiel {
 	 */
 	public Ballspiel(BallFrame f)
 	{
-		this.f = f;
+		this.ballFrame = f;
 	}
 	
 	/**
@@ -30,14 +30,14 @@ public class Ballspiel {
 
 		Random r = new Random();
 		int dauer = r.nextInt(500) + 1000; //Zufallszahl zwischen 1000 und 1500
-		Ball b = new Ball(f.getZeichenflaeche(), dauer);
+		Ball b = new Ball(ballFrame.getZeichenflaeche(), dauer);
 		ballList.add(b);
 		Thread bThread = new Thread(ballThreadGroup,b);
 		bThread.start();
 	}
 	
 	/**
-	 * hält alle Bälle auf der Oberfläche an, so dass sie an ihrer aktuellen Position
+	 * hält alle Bälle auf der Oberfläche an, sodass sie an ihrer aktuellen Position
 	 * stehen bleiben
 	 */
 	public void baelleStoppen() {

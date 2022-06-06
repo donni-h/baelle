@@ -4,9 +4,6 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import static java.lang.Thread.currentThread;
-import static java.lang.Thread.interrupted;
-
 /**
  * ein hüpfender Ball
  * @author Doro
@@ -14,7 +11,7 @@ import static java.lang.Thread.interrupted;
  */
 public class Ball implements Runnable{
 	private final int dauer;
-	private boolean anhalten;
+	private boolean isAngehalten;
 	/**
 	 * erstellt einen Ball, der in das angegebene Panel gezeichnet wird
 	 * @param b Die Zeichenfläche
@@ -86,7 +83,7 @@ public class Ball implements Runnable{
 				for (int i = 1; i <= dauer; i++) {
 					this.move();
 					try {
-						if (anhalten)
+						if (isAngehalten)
 							synchronized (this) {
 								wait();
 							}
@@ -111,11 +108,18 @@ public class Ball implements Runnable{
 		huepfen(dauer);
 	}
 
+	/**
+	 * sorgt dafür, dass ein Ball angehalten wird.
+	 */
 	public void anhalten() {
-		this.anhalten = true;
+		this.isAngehalten = true;
 	}
+
+	/**
+	 * sorgt dafür, dass angehaltene Bälle weiter hüpfen
+	 */
 	public void weiter(){
-		this.anhalten = false;
+		this.isAngehalten = false;
 		synchronized (this) {
 			notify();
 		}

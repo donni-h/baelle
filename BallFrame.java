@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -33,7 +34,7 @@ public class BallFrame extends JFrame {
 		});
 		Container contentPane = getContentPane();
 		uhrzeit = new JTextField();
-		uhrzeit.setText("hallo..");
+		timer(uhrzeit);
 		contentPane.add(uhrzeit, BorderLayout.NORTH);
 		canvas = new JPanel();
 		contentPane.add(canvas, BorderLayout.CENTER);
@@ -62,6 +63,25 @@ public class BallFrame extends JFrame {
 			}
 		});
 		contentPane.add(p, BorderLayout.SOUTH);
+	}
+
+	/**
+	 * zeigt in einem Textfeld die Uhrzeit im Format HH:MM:SS an.
+	 * @param textField textField in dem geschrieben werden soll.
+	 */
+	private void timer(JTextField textField) {
+		Runnable timer = () -> {
+			while (true) {
+				textField.setText(new SimpleDateFormat("HH:mm:ss").format(new java.util.Date()));
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					break;
+				}
+			}
+		};
+		Thread t = new Thread(timer);
+		t.start();
 	}
 
 	private void addButton(Container c, String title, ActionListener a) {
